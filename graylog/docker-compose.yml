@@ -49,7 +49,7 @@ services:
       - 12201:12201/udp
     labels:
       - "traefik.http.routers.graylog.rule=Host(`graylog.localhost`)"
-      - "traefik.http.services.graylog.loadbalancer.server.port=8080"
+      - "traefik.http.services.graylog.loadbalancer.server.port=9000"
 
 
 networks:
