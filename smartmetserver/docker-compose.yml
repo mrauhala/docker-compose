@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  portainer:
+    image: smartmetserver:latest
+    container_name: smartmetserver
+    restart: always
+    labels:
+      - "traefik.http.routers.smartmetserver.rule=Host(`smartmetserver.localhost`)"
+      - "traefik.http.services.smartmetserver.loadbalancer.server.port=8080"
+    volumes:
+      - ${HOME}/data:/smartmet/data
+    networks:
+      - traefik-local
+
+networks:
+    traefik-local:
+      external: true
