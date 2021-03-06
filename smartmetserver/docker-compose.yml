@@ -14,6 +14,12 @@ services:
     networks:
       - traefik-local
 
+volumes:
+  model-fmi-hirlam:
+    external: true
+  model-fmi-meps:
+    external: true
+
 networks:
     traefik-local:
       external: true
