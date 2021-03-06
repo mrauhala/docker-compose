@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  nodered:
+    image: nodered/node-red
+    container_name: nodered
+    restart: always
+    labels:
+      - "traefik.http.routers.nodered.rule=Host(`portainer.localhost`)"
+      - "traefik.http.services.nodered.loadbalancer.server.port=1880"
+    volumes:
+      - nodered-storage:/data
+    networks:
+      - traefik-local
+
+volumes:
+  nodered-storage:
+
+networks:
+    traefik-local:
+      external: true
