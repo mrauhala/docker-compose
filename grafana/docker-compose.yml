@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  portainer:
+    image: grafana/grafana
+    container_name: grafana
+    restart: always
+    labels:
+      - "traefik.http.routers.grafana.rule=Host(`grafana.localhost`)"
+      - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+    networks:
+      - traefik-local
+
+networks:
+    traefik-local:
+      external: true
+      
