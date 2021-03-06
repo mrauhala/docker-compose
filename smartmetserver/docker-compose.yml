@@ -11,6 +11,8 @@ services:
     volumes:
       - model-fmi-hirlam:/smartmet/data/hirlam
       - model-fmi-meps:/smartmet/data/meps
+      - model-fmi-wam:/smartmet/data/wam
+      - model-fmi-hbm:/smartmet/data/hbm
     networks:
       - traefik-local
 
@@ -18,6 +20,10 @@ volumes:
   model-fmi-hirlam:
     external: true
   model-fmi-meps:
+    external: true
+  model-fmi-wam:
+    external: true
+  model-fmi-hbm:
     external: true
 
 networks:
