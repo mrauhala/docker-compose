@@ -39,7 +39,7 @@ services:
       - elasticsearch
     ports:
       # Graylog web interface and REST API
-      - 9000:9000
+      - 9999:9000
       # Syslog TCP
       - 1514:1514
       # Syslog UDP
