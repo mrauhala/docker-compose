@@ -8,9 +8,14 @@ services:
     labels:
       - "traefik.http.routers.grafana.rule=Host(`grafana.localhost`)"
       - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+    volumes:
+      - grafana-storage:/var/lib/grafana
     networks:
       - traefik-local
 
+volumes:
+  grafana-storage:
+  
 networks:
     traefik-local:
       external: true
