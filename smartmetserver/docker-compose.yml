@@ -9,7 +9,7 @@ services:
       - "traefik.http.routers.smartmetserver.rule=Host(`smartmetserver.localhost`)"
       - "traefik.http.services.smartmetserver.loadbalancer.server.port=8080"
     volumes:
-      - ${HOME}/data:/smartmet/data
+      - ~/data:/smartmet/data
     networks:
       - traefik-local
 
