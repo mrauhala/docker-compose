@@ -31,6 +31,7 @@ services:
     entrypoint: /usr/bin/tini -- wait-for-it elasticsearch:9200 --  /docker-entrypoint.sh
     networks:
       - graylog
+      - traefik-local
     restart: always
     depends_on:
       - mongo
@@ -46,6 +47,13 @@ services:
       - 12201:12201
       # GELF UDP
       - 12201:12201/udp
+    labels:
+      - "traefik.http.routers.graylog.rule=Host(`graylog.localhost`)"
+      - "traefik.http.services.graylog.loadbalancer.server.port=8080"
+
+
 networks:
+  traefik-local:
+    external: true
   graylog:
     driver: bridge
