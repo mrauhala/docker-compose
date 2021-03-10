@@ -6,7 +6,7 @@ services:
     container_name: nodered
     restart: always
     labels:
-      - "traefik.http.routers.nodered.rule=Host(`nodered.localhost`)"
+      - "traefik.http.routers.nodered.rule=Host(`nodered.${APPDOMAIN:-local}`)"
       - "traefik.http.services.nodered.loadbalancer.server.port=1880"
     volumes:
       - nodered-storage:/data
