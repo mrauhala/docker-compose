@@ -12,13 +12,13 @@ services:
     volumes:
           # So that Portaomer can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
+      - portainer-storage:/data
     networks:
-      - traefik-local
+      - traefik-network
 
 volumes:
-  portainer_data:
+  portainer-storage:
 
 networks:
-    traefik-local:
+    traefik-network:
       external: true
