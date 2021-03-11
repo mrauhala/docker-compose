@@ -6,14 +6,12 @@ services:
     container_name: traefik
     # Enables the web UI and tells Traefik to listen to docker
     command:
-      - "--log.level=DEBUG"
       - "--api.insecure=true"
       - "--providers.docker"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
       - "--certificatesresolvers.dnsmadeeasy.acme.dnschallenge=true"
       - "--certificatesresolvers.dnsmadeeasy.acme.dnschallenge.provider=dnsmadeeasy"
-      - "--certificatesresolvers.dnsmadeeasy.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
       - "--certificatesresolvers.dnsmadeeasy.acme.email=mikko@rauhala.net"
       - "--certificatesresolvers.dnsmadeeasy.acme.storage=/letsencrypt/acme.json"
     privileged: true
