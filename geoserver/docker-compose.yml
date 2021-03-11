@@ -7,6 +7,7 @@ services:
     restart: always
     labels:
       - "traefik.http.routers.geoserver.rule=Host(`geoserver.${APPDOMAIN:-local}`)"
+      - "traefik.http.routers.geoserver.tls.certresolver=dnsmadeeasy"
       - "traefik.http.services.geoserver.loadbalancer.server.port=8080"
     networks:
       - traefik-network
