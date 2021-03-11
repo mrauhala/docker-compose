@@ -49,7 +49,7 @@ services:
       # GELF UDP
       - 12201:12201/udp
     labels:
-      - "traefik.http.routers.graylog.rule=Host(`graylog.localhost`)"
+      - "traefik.http.routers.graylog.rule=Host(`graylog.${APPDOMAIN:-local}`)"
       - "traefik.http.services.graylog.loadbalancer.server.port=9000"
 
 
