@@ -9,8 +9,8 @@ services:
       - "traefik.http.routers.geoserver.rule=Host(`geoserver.${APPDOMAIN:-local}`)"
       - "traefik.http.services.geoserver.loadbalancer.server.port=8080"
     networks:
-      - traefik-local
+      - traefik-network
 
 networks:
-    traefik-local:
+    traefik-network:
       external: true
