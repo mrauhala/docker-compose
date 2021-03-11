@@ -1,0 +1,23 @@
+
+version: '3'
+
+services:
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    restart: always
+    labels:
+      - "traefik.http.routers.prometheus.rule=Host(`prometheus.${APPDOMAIN:-local}`)"
+      - "traefik.http.routers.prometheus.tls.certresolver=dnsmadeeasy"
+      - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
+    volumes:
+      - prometheus-storage:/etc/prometheus
+    networks:
+      - traefik-network
+
+volumes:
+  prometheus-storage:
+  
+networks:
+    traefik-network:
+      external: true
