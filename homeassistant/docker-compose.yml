@@ -1,0 +1,19 @@
+version: '3'
+services:
+  homeassistant:
+    container_name: homeassistant
+    image: homeassistant/home-assistant:stable
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - nodered-storage:/config
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - traefik-local
+
+volumes:
+  homeassistant-storage:
+
+networks:
+    traefik-local:
+      external: true
