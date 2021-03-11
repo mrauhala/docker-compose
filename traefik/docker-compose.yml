@@ -21,6 +21,9 @@ services:
       - "traefik.http.routers.traefik.rule=Host(`traefik.${APPDOMAIN:-local}`)"
       - "traefik.http.routers.traefik.tls.certresolver=dnsmadeeasy"
       - "traefik.http.services.traefik.loadbalancer.server.port=8080"
+    environment:
+      - "DNSMADEEASY_API_KEY=${DNSMADEEASY_API_KEY}"
+      - "DNSMADEEASY_API_SECRET=${DNSMADEEASY_API_SECRET}"
     ports:
       # HTTP port
       - "80:80"
