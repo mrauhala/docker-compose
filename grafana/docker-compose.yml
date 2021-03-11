@@ -11,12 +11,12 @@ services:
     volumes:
       - grafana-storage:/var/lib/grafana
     networks:
-      - traefik-local
+      - traefik-network
 
 volumes:
   grafana-storage:
   
 networks:
-    traefik-local:
+    traefik-network:
       external: true
       
