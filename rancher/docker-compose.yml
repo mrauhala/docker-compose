@@ -1,0 +1,19 @@
+
+version: '3'
+
+services:
+  rancher:
+    image: rancher/rancher:latest
+    container_name: rancher
+    privileged: true
+    restart: always
+    labels:
+      - "traefik.http.routers.rancher.rule=Host(`rancher.${APPDOMAIN:-local}`)"
+      - "traefik.http.routers.rancher.tls.certresolver=dnsmadeeasy"
+      - "traefik.http.services.rancher.loadbalancer.server.port=80"
+    networks:
+      - traefik-network
+  
+networks:
+    traefik-network:
+      external: true
