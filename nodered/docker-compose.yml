@@ -11,11 +11,11 @@ services:
     volumes:
       - nodered-storage:/data
     networks:
-      - traefik-local
+      - traefik-network
 
 volumes:
   nodered-storage:
 
 networks:
-    traefik-local:
+    traefik-network:
       external: true
