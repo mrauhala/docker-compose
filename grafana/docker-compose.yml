@@ -6,7 +6,7 @@ services:
     container_name: grafana
     restart: always
     labels:
-      - "traefik.http.routers.grafana.rule=Host(`grafana.localhost`)"
+      - "traefik.http.routers.grafana.rule=Host(`grafana.${APPDOMAIN:-local}`)"
       - "traefik.http.services.grafana.loadbalancer.server.port=3000"
     volumes:
       - grafana-storage:/var/lib/grafana
