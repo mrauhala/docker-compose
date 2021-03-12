@@ -5,6 +5,8 @@ services:
     image: meteofi/geoserver:2.18
     container_name: geoserver
     restart: always
+    environment:
+      - GEOSERVER_CSRF_WHITELIST=geoserver.${APPDOMAIN:-local}
     labels:
       - "traefik.http.routers.geoserver.rule=Host(`geoserver.${APPDOMAIN:-local}`)"
       - "traefik.http.routers.geoserver.tls.certresolver=dnsmadeeasy"
