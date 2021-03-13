@@ -17,6 +17,8 @@ services:
     image: chronograf
     container_name: chronograf
     restart: always
+    command:
+      - "--influxdb-url=http://influxdb:8086"
     labels:
       - "traefik.http.routers.chronograf.rule=Host(`chronograf.${APPDOMAIN:-local}`)"
       - "traefik.http.routers.chronograf.tls.certresolver=dnsmadeeasy"
