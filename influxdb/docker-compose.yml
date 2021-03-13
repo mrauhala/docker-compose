@@ -6,9 +6,9 @@ services:
     container_name: influxdb
     restart: always
     labels:
-      - "traefik.http.routers.grafana.rule=Host(`influxdb.${APPDOMAIN:-local}`)"
-      - "traefik.http.routers.grafana.tls.certresolver=dnsmadeeasy"
-      - "traefik.http.services.grafana.loadbalancer.server.port=8086"
+      - "traefik.http.routers.influxdb.rule=Host(`influxdb.${APPDOMAIN:-local}`)"
+      - "traefik.http.routers.influxdb.tls.certresolver=dnsmadeeasy"
+      - "traefik.http.services.influxdb.loadbalancer.server.port=8086"
     volumes:
       - influxdb-storage:/var/lib/influxdb
     networks:
@@ -18,15 +18,16 @@ services:
     container_name: chronograf
     restart: always
     labels:
-      - "traefik.http.routers.grafana.rule=Host(`influxdb.${APPDOMAIN:-local}`)"
-      - "traefik.http.routers.grafana.tls.certresolver=dnsmadeeasy"
-      - "traefik.http.services.grafana.loadbalancer.server.port=8888"
+      - "traefik.http.routers.chronograf.rule=Host(`chronograf.${APPDOMAIN:-local}`)"
+      - "traefik.http.routers.chronograf.tls.certresolver=dnsmadeeasy"
+      - "traefik.http.services.chronograf.loadbalancer.server.port=8888"
     volumes:
       - chronograf-storage:/var/lib/chronograf
     networks:
       - traefik-network
 
 volumes:
+  influxdb-storage:
   chronograf-storage:
   
 networks:
