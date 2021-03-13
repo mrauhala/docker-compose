@@ -10,7 +10,7 @@ services:
       - "traefik.http.routers.grafana.tls.certresolver=dnsmadeeasy"
       - "traefik.http.services.grafana.loadbalancer.server.port=8086"
     volumes:
-      - influxdb-volume:/var/lib/influxdb
+      - influxdb-storage:/var/lib/influxdb
     networks:
       - traefik-network
 
