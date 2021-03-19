@@ -17,7 +17,7 @@ services:
       - "--entrypoints.websecure.http.tls.domains[0].sans=*.${APPDOMAIN:-local}"
       - "--certificatesresolvers.dnsmadeeasy.acme.dnschallenge=true"
       - "--certificatesresolvers.dnsmadeeasy.acme.dnschallenge.provider=dnsmadeeasy"
-      - "--certificatesresolvers.dnsmadeeasy.acme.email=mikko@rauhala.net"
+      - "--certificatesresolvers.dnsmadeeasy.acme.email=${ACME_EMAIL}"
       - "--certificatesresolvers.dnsmadeeasy.acme.storage=/letsencrypt/acme.json"
     privileged: true
     labels:
