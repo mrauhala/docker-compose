@@ -1,5 +1,4 @@
 version: '3'
-
 services:
   portainer:
     image: portainer/portainer-ce
@@ -7,8 +6,8 @@ services:
     privileged: true
     restart: always
     labels:
+      - "traefik.http.routers.portainer.entrypoints=websecure"
       - "traefik.http.routers.portainer.rule=Host(`portainer.${APPDOMAIN:-local}`)"
-      - "traefik.http.routers.portainer.tls.certresolver=dnsmadeeasy"
       - "traefik.http.services.portainer.loadbalancer.server.port=9000"
     volumes:
           # So that Portaomer can listen to the Docker events
