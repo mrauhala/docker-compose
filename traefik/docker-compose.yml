@@ -22,7 +22,7 @@ services:
     privileged: true
     labels:
       - "traefik.http.routers.traefik.rule=Host(`traefik.${APPDOMAIN:-local}`)"
-      - "traefik.http.routers.traefik.tls.certresolver=dnsmadeeasy"
+      - "traefik.http.routers.traefik.entrypoints=websecure"
       - "traefik.http.services.traefik.loadbalancer.server.port=8080"
     environment:
       - "DNSMADEEASY_API_KEY=${DNSMADEEASY_API_KEY}"
