@@ -13,6 +13,7 @@ services:
       - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
       - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
       - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.websecure.http.tls.certResolver=dnsmadeeasy"
       - "--entrypoints.websecure.http.tls.domains[0].main=${APPDOMAIN:-local}"
       - "--entrypoints.websecure.http.tls.domains[0].sans=*.${APPDOMAIN:-local}"
       - "--certificatesresolvers.dnsmadeeasy.acme.dnschallenge=true"
