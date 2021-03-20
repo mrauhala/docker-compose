@@ -6,14 +6,16 @@ services:
     restart: unless-stopped
     network_mode: host
     volumes:
-      - nodered-storage:/config
-      - /etc/localtime:/etc/localtime:ro
+      - homeassistant-storage:/config
     networks:
       - traefik-local
-
+    environment:
+      - TZ=Europe/Helsinki
+      
 volumes:
   homeassistant-storage:
 
 networks:
     traefik-local:
       external: true
+
