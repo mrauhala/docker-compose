@@ -5,6 +5,10 @@ services:
     image: homeassistant/home-assistant:stable
     restart: unless-stopped
     network_mode: host
+    labels:
+      - "traefik.http.routers.homeassistant.rule=Host(`homeassistant.${APPDOMAIN:-local}`)"
+      - "traefik.http.routers.homeassistant.entrypoints=websecure"
+      - "traefik.http.services.homeassistant.loadbalancer.server.port=8123"
     volumes:
       - homeassistant-storage:/config
     networks:
