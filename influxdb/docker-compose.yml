@@ -1,13 +1,12 @@
 version: '3'
-
 services:
   influxdb:
     image: influxdb
     container_name: influxdb
     restart: always
     labels:
+      - "traefik.http.routers.influxdb.entrypoints=websecure"
       - "traefik.http.routers.influxdb.rule=Host(`influxdb.${APPDOMAIN:-local}`)"
-      - "traefik.http.routers.influxdb.tls.certresolver=dnsmadeeasy"
       - "traefik.http.services.influxdb.loadbalancer.server.port=8086"
     volumes:
       - influxdb-storage:/var/lib/influxdb
@@ -20,8 +19,8 @@ services:
     command:
       - "--influxdb-url=http://influxdb:8086"
     labels:
+      - "traefik.http.routers.chronograf.entrypoints=websecure"
       - "traefik.http.routers.chronograf.rule=Host(`chronograf.${APPDOMAIN:-local}`)"
-      - "traefik.http.routers.chronograf.tls.certresolver=dnsmadeeasy"
       - "traefik.http.services.chronograf.loadbalancer.server.port=8888"
     volumes:
       - chronograf-storage:/var/lib/chronograf
