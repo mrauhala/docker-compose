@@ -1,15 +1,14 @@
 version: '3'
-
 services:
   geoserver:
     image: meteofi/geoserver:2.18
     container_name: geoserver
-    restart: always
+    restart: unless-stopped
     environment:
       - GEOSERVER_CSRF_WHITELIST=geoserver.${APPDOMAIN:-local}
     labels:
+      - "traefik.http.routers.geoserver.entrypoints=websecure"
       - "traefik.http.routers.geoserver.rule=Host(`geoserver.${APPDOMAIN:-local}`)"
-      - "traefik.http.routers.geoserver.tls.certresolver=dnsmadeeasy"
       - "traefik.http.services.geoserver.loadbalancer.server.port=8080"
     networks:
       - traefik-network
