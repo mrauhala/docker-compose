@@ -19,7 +19,4 @@ services:
 volumes:
   homeassistant-storage:
 
-networks:
-    traefik-local:
-      external: true
 
