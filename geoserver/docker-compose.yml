@@ -10,8 +10,13 @@ services:
       - "traefik.http.routers.geoserver.entrypoints=websecure"
       - "traefik.http.routers.geoserver.rule=Host(`geoserver.${APPDOMAIN:-local}`)"
       - "traefik.http.services.geoserver.loadbalancer.server.port=8080"
+    volumes:
+      - geoserver-storage:/usr/local/tomcat/webapps/geoserver/data
     networks:
       - traefik-network
+
+volumes:
+  geoserver-storage:
 
 networks:
     traefik-network:
