@@ -1,19 +1,19 @@
 version: '3'
 services:
-  mosqitto:
+  mosquitto:
     image: eclipse-mosquitto
-    container_name: mosqitto
-    restart: always
+    container_name: mosquitto
+    restart: unless-stopped
     command: /usr/sbin/mosquitto -c /mosquitto-no-auth.conf
     ports:
       - 1883:1883
     volumes:
-      - mosqitto-storage:/mosquitto/data
+      - mosquitto-storage:/mosquitto/data
     networks:
       - traefik-network
 
 volumes:
-  mosqitto-storage:
+  mosquitto-storage:
 
 networks:
     traefik-network:
