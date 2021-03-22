@@ -1,10 +1,10 @@
 version: '3'
-
 services:
-  portainer:
-    image: mosqitto
+  mosqitto:
+    image: eclipse-mosquitto
     container_name: mosqitto
     restart: always
+    command: /usr/sbin/mosquitto -c /mosquitto-no-auth.conf
     ports:
       - 1883:1883
     volumes:
@@ -14,3 +14,7 @@ services:
 
 volumes:
   mosqitto-storage:
+
+networks:
+    traefik-network:
+      external: true
