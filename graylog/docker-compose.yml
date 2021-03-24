@@ -3,8 +3,10 @@ services:
   mongo:
     image: mongo:4.2
     container_name: graylog_mongo
+    volumes:
+      - graylog-mongo-storage:/data/db
     networks:
-      - graylog-network
+      - traefik-network
   # Elasticsearch: https://www.elastic.co/guide/en/elasticsearch/reference/7.10/docker.html
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.10.2
@@ -22,17 +24,21 @@ services:
       resources:
         limits:
           memory: 1g
+    volumes:
+      - graylog-elasticsearch-storage:/usr/share/elasticsearch/data
     networks:
-      - graylog-network
+      - traefik-network
   # Graylog: https://hub.docker.com/r/graylog/graylog/
   graylog:
     image: graylog/graylog:4.0
     container_name: graylog
     environment:
       - GRAYLOG_HTTP_EXTERNAL_URI=https://graylog.${APPDOMAIN:-local}/
+      - TZ=Europe/Helsinki
     entrypoint: /usr/bin/tini -- wait-for-it elasticsearch:9200 --  /docker-entrypoint.sh
+    volumes:
+      - graylog-storage:/usr/share/graylog/data
     networks:
-      - graylog-network
       - traefik-network
     restart: always
     depends_on:
@@ -48,13 +54,15 @@ services:
       # GELF UDP
       - 12201:12201/udp
     labels:
+      - "traefik.http.routers.graylog.entrypoints=websecure"
       - "traefik.http.routers.graylog.rule=Host(`graylog.${APPDOMAIN:-local}`)"
       - "traefik.http.services.graylog.loadbalancer.server.port=9000"
-      - "traefik.http.routers.graylog.tls.certresolver=dnsmadeeasy"
 
-
+volumes:
+  graylog-mongo-storage:
+  graylog-elasticsearch-storage:
+  graylog-storage:
+  
 networks:
   traefik-network:
     external: true
-  graylog-network:
-    driver: bridge
