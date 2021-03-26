@@ -1,0 +1,21 @@
+version: '3'
+services:
+  meshcentral:
+    image: meshcentral:latest
+    container_name: meshcentral
+    restart: unless-stopped
+    labels:
+      - "traefik.http.routers.meshcentral.entrypoints=websecure"
+      - "traefik.http.routers.meshcentral.rule=Host(`meshcentral.${APPDOMAIN:-local}`)"
+      - "traefik.http.services.meshcentral.loadbalancer.server.port=8080"
+    volumes:
+      - meshcentral-storage:/app/meshcentral-data
+    networks:
+      - traefik-network
+
+volumes:
+  meshcentral-storage:
+
+networks:
+    traefik-network:
+      external: true
