@@ -1,6 +1,7 @@
 version: '3'
 services:
   meshcentral:
+    build: .
     image: meshcentral:latest
     container_name: meshcentral
     restart: unless-stopped
