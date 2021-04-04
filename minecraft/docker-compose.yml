@@ -1,0 +1,20 @@
+version: '3'
+services:
+  minecraft:
+    image: itzg/minecraft-bedrock-server
+    container_name: minecraft
+    restart: unless-stopped
+    environment:
+      EULA: "TRUE"
+      GAMEMODE: survival
+      DIFFICULTY: normal
+    ports:
+      - 19132:19132/udp
+    volumes:
+      - minecraft-storage:/data
+    stdin_open: true
+    tty: true
+
+volumes:
+  minecraft-storage:
+ 
