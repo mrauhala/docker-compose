@@ -8,8 +8,8 @@ services:
       EULA: "TRUE"
       GAMEMODE: creative
       DIFFICULTY: peaceful
-      SERVER_NAME: "Rauhala Server"
-      LEVEL_NAME: "Eliaksen maailma"
+      SERVER_NAME: "Rauhala"
+      LEVEL_NAME: "Eliaksen valtakunta"
     ports:
       - 19132:19132/udp
     volumes:
