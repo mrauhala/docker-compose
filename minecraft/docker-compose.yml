@@ -6,8 +6,10 @@ services:
     restart: unless-stopped
     environment:
       EULA: "TRUE"
-      GAMEMODE: survival
+      GAMEMODE: creative
       DIFFICULTY: normal
+      SERVER_NAME: "Rauhala Server"
+      LEVEL_NAME: "Eliaksen maailma"
     ports:
       - 19132:19132/udp
     volumes:
