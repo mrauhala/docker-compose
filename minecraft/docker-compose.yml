@@ -7,7 +7,7 @@ services:
     environment:
       EULA: "TRUE"
       GAMEMODE: creative
-      DIFFICULTY: normal
+      DIFFICULTY: peaceful
       SERVER_NAME: "Rauhala Server"
       LEVEL_NAME: "Eliaksen maailma"
     ports:
