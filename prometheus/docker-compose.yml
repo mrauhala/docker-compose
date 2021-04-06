@@ -1,14 +1,13 @@
 
 version: '3'
-
 services:
   prometheus:
     image: prom/prometheus
     container_name: prometheus
-    restart: always
+    restart: unless-stopped
     labels:
-      - "traefik.http.routers.prometheus.rule=Host(`prometheus.${APPDOMAIN:-local}`)"
-      - "traefik.http.routers.prometheus.tls.certresolver=dnsmadeeasy"
+      - "traefik.http.routers.prometheus.entrypoints=websecure"
+      - "traefik.http.routers.prometheus.rule=Host(`geoserver.${APPDOMAIN:-local}`)"
       - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
     volumes:
       - prometheus-storage:/etc/prometheus
