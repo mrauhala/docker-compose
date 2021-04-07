@@ -1,7 +1,7 @@
 version: '3'
 services:
   geoserver:
-    image: meteofi/geoserver:2.18
+    image: meteofi/geoserver:2.19
     container_name: geoserver
     restart: unless-stopped
     environment:
