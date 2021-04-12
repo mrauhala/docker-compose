@@ -1,0 +1,57 @@
+version: '3'
+services:
+  guacd:
+    image: guacamole/guacd
+    container_name: guacamole_guacd
+    restart: unless-stopped
+    networks:
+      - traefik-network
+  guacamole:
+    image: guacamole/guacamole
+    container_name: guacamole
+    restart: unless-stopped
+    environment:
+      GUACD_HOSTNAME: guacamole_guacd
+      POSTGRES_HOSTNAME: guacamole_postgres
+      POSTGRES_DATABASE: guacamole
+      POSTGRES_USER: guacamole
+      POSTGRES_PASSWORD: guacamole
+    labels:
+      - "traefik.http.routers.guacamole.entrypoints=websecure"
+      - "traefik.http.routers.guacamole.rule=Host(`guacamole.${APPDOMAIN:-local}`)"
+      - "traefik.http.services.chroguacamolenograf.loadbalancer.server.port=8080"
+    networks:
+      - traefik-network
+    depends_on:
+      - postgres
+      - guacd
+  guacamole_initdb:
+    image: guacamole/guacamole
+    container_name: guacamole_initdb
+    command: ["/bin/sh", "-c", "/opt/guacamole/bin/initdb.sh --postgres > /docker-entrypoint-initdb.d/initdb.sql" ]
+    volumes:
+      - guacamole-init-storage:/docker-entrypoint-initdb.d   
+  postgres:
+    image: postgres
+    container_name: guacamole_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: guacamole
+      POSTGRES_USER: guacamole
+      POSTGRES_PASSWORD: guacamole
+    volumes:
+      - guacamole-storage:/var/lib/postgresql/data
+      - guacamole-init-storage:/docker-entrypoint-initdb.d
+    networks:
+      - traefik-network
+    depends_on:
+      - guacamole_initdb
+
+volumes:
+  guacamole-storage:
+  guacamole-init-storage:
+  
+networks:
+    traefik-network:
+      external: true
+
