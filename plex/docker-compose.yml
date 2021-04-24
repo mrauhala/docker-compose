@@ -23,3 +23,5 @@ volumes:
   plex-storage:
 
 networks:
+  traefik-network:
+    external: true
