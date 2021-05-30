@@ -5,15 +5,34 @@ services:
     container_name: keycloak
     restart: unless-stopped
     environment:
-      - KEYCLOAK_USER=${KEYCLOAK_USER:-admin}
-      - KEYCLOAK_PASSWORD=${KEYCLOAK_PASSWORD:-admin} 
+      DB_ADDR: keycloak_postgres
+      DB_USER: keycloak
+      DB_PASSWORD: ${DB_PASSWORD:-keycloak}
+      PROXY_ADDRESS_FORWARDING: "true"
     labels:
       - "traefik.http.routers.keycloak.entrypoints=websecure"
       - "traefik.http.routers.keycloak.rule=Host(`keycloak.${APPDOMAIN:-local}`)"
       - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
     networks:
       - traefik-network
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres
+    container_name: keycloak_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-keycloak}
+    volumes:
+      - keycloak-storage:/var/lib/postgresql/data
+    networks:
+      - traefik-network
 
+volumes:
+  keycloak-storage:
+  
 networks:
     traefik-network:
       external: true
