@@ -3,7 +3,6 @@ services:
   smartmetserver:
     image: fmidev/smartmetserver:latest
     container_name: smartmetserver
-    restart: unless-stopped
     labels:
       - "traefik.http.routers.smartmetserver.entrypoints=websecure"
       - "traefik.http.routers.smartmetserver.rule=Host(`smartmetserver.${APPDOMAIN:-local}`)"
@@ -14,18 +13,64 @@ services:
       - model-fmi-wam:/smartmet/data/wam
       - model-fmi-hbm:/smartmet/data/hbm
     networks:
-      - traefik-local
+      - traefik-network
+    restart: unless-stopped
+  hirlam:
+    image: fmidev/fmidownloader
+    container_name: fmidownloader-hirlam
+    command:
+      - "--producer=hirlam"
+      - "--dir=surface"
+      - "--filename=hirlam_europe_surface"
+      - "--parameters=Temperature,DewPoint,Humidity,WindDirection,WindSpeedMS,WindGust,TotalCloudCover,Precipitation1h,WeatherSymbol3,Pressure,CAPE,CIN"
+    volumes:
+      - model-fmi-hirlam:/tmp
+    restart: unless-stopped
+  meps:
+    image: fmidev/fmidownloader
+    container_name: fmidownloader-meps
+    command:
+      - "--producer=harmonie_scandinavia_surface"
+      - "--dir=surface"
+      - "--filename=meps_northeurope_surface"
+      - "--parameters=Temperature,DewPoint,Humidity,WindDirection,WindSpeedMS,WindGust,TotalCloudCover,Precipitation1h,WeatherSymbol3,Pressure,CAPE,CIN"
+    volumes:
+      - model-fmi-meps:/tmp
+    restart: unless-stopped
+  hbm:
+    image: fmidev/fmidownloader
+    container_name: fmidownloader-hbm
+    command:
+      - "--producer=hbm"
+      - "--dir=surface"
+      - "--filename=hbm_baltic_surface"
+      - "--parameters=TemperatureSea,SeaWaterVelocityU,SeaWaterVelocityV"
+    volumes:
+      - model-fmi-hbm:/tmp
+    restart: unless-stopped
+
+  wam:
+    image: fmidev/fmidownloader
+    container_name: fmidownloader-wam
+    command:
+      - "--producer=wam"
+      - "--dir=surface"
+      - "--filename=wam_baltic_surface"
+      - "--parameters=SigWaveHeight,SigWavePeriod,WaveDirection"
+    volumes:
+      - model-fmi-wam:/tmp
+    restart: unless-stopped
 
 volumes:
   model-fmi-hirlam:
-    external: true
+    name: model-fmi-hirlam
   model-fmi-meps:
-    external: true
-  model-fmi-wam:
-    external: true
+    name: model-fmi-meps
   model-fmi-hbm:
-    external: true
+    name: model-fmi-hbm
+  model-fmi-wam:
+    name: model-fmi-wam
 
 networks:
-    traefik-local:
+    traefik-network:
       external: true
