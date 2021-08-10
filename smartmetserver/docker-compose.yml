@@ -15,9 +15,9 @@ services:
     networks:
       - traefik-network
     restart: unless-stopped
-  hirlam:
+  hirlam-surface:
     image: fmidev/fmidownloader
-    container_name: fmidownloader-hirlam
+    container_name: fmidownloader-hirlam-surface
     command:
       - "--producer=hirlam"
       - "--dir=surface"
@@ -26,14 +26,36 @@ services:
     volumes:
       - model-fmi-hirlam:/tmp
     restart: unless-stopped
-  meps:
+  hirlam-pressure:
     image: fmidev/fmidownloader
-    container_name: fmidownloader-meps
+    container_name: fmidownloader-hirlam-pressure
+    command:
+      - "--producer=hirlam_painepinta"
+      - "--dir=pressure"
+      - "--filename=hirlam_europe_pressure"
+      - "--parameters=Humidity,Temperature,GeopHeight,WindDirection,WindSpeedMS,DewPoint"
+    volumes:
+      - model-fmi-hirlam:/tmp
+    restart: unless-stopped
+  meps-surface:
+    image: fmidev/fmidownloader
+    container_name: fmidownloader-meps-surface
     command:
       - "--producer=harmonie_scandinavia_surface"
       - "--dir=surface"
       - "--filename=meps_northeurope_surface"
       - "--parameters=Temperature,DewPoint,Humidity,WindDirection,WindSpeedMS,WindGust,TotalCloudCover,Precipitation1h,WeatherSymbol3,Pressure,CAPE,CIN"
+    volumes:
+      - model-fmi-meps:/tmp
+    restart: unless-stopped
+  meps-pressure:
+    image: fmidev/fmidownloader
+    container_name: fmidownloader-meps-pressure
+    command:
+      - "--producer=harmonie_scandinavia_pressure"
+      - "--dir=pressure"
+      - "--filename=meps_northeurope_pressure"
+      - "--parameters=Humidity,Temperature,GeopHeight,WindDirection,WindSpeedMS,DewPoint"
     volumes:
       - model-fmi-meps:/tmp
     restart: unless-stopped
