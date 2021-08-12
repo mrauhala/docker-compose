@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  tftp:
+    image: tftp
+    container_name: tftp
+    restart: unless-stopped
+    ports:
+      - "69:69/udp"
+    volumes:
+      - /var/mnt/brick1/tftpboot:/tftpboot
