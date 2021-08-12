@@ -2,6 +2,7 @@ version: '3'
 
 services:
   tftp:
+    build: .
     image: tftp
     container_name: tftp
     restart: unless-stopped
