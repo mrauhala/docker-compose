@@ -5,13 +5,15 @@ services:
     container_name: smartmetserver
     labels:
       - "traefik.http.routers.smartmetserver.entrypoints=websecure"
-      - "traefik.http.routers.smartmetserver.rule=Host(`smartmetserver.${APPDOMAIN:-local}`)"
+      - "traefik.http.routers.smartmetserver.rule=Host(`data.${APPDOMAIN:-local}`)"
       - "traefik.http.services.smartmetserver.loadbalancer.server.port=8080"
     volumes:
       - model-fmi-hirlam:/smartmet/data/hirlam
       - model-fmi-meps:/smartmet/data/meps
       - model-fmi-wam:/smartmet/data/wam
       - model-fmi-hbm:/smartmet/data/hbm
+      - model-ncep-gfs:/smartmet/data/gfs
+      - model-cmc-gem:/smartmet/data/gem
     networks:
       - traefik-network
     restart: unless-stopped
@@ -92,7 +94,11 @@ volumes:
     name: model-fmi-hbm
   model-fmi-wam:
     name: model-fmi-wam
-
+  model-ncep-gfs:
+    name: model-ncep-gfs
+  model-cmc-gem:
+    name: model-cmc-gem
+    
 networks:
     traefik-network:
       external: true
