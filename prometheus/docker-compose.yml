@@ -11,12 +11,30 @@ services:
       - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
     volumes:
       - prometheus-storage:/prometheus
+      - prometheus-config:/etc/prometheus
+    networks:
+      - traefik-network
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    restart: unless-stopped
+    privileged: true
+    labels:
+      - "traefik.http.routers.cadvisor.entrypoints=websecure"
+      - "traefik.http.routers.cadvisor.rule=Host(`cadvisor.${APPDOMAIN:-local}`)"
+      - "traefik.http.services.cadvisor.loadbalancer.server.port=8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
     networks:
       - traefik-network
 
 volumes:
   prometheus-storage:
-  
+  prometheus-config:
+
 networks:
     traefik-network:
       external: true
