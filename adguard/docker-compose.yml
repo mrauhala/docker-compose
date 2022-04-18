@@ -1,0 +1,26 @@
+version: "3"
+services:
+  adguard:
+    container_name: adguard
+    image: adguard/adguardhome
+    restart: unless-stopped
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+    labels:
+      - "traefik.http.routers.adguard.entrypoints=websecure"
+      - "traefik.http.routers.adguard.rule=Host(`adguard.${APPDOMAIN:-local}`)"
+      - "traefik.http.services.adguard.loadbalancer.server.port=3000"
+    volumes:
+      - adguard-storage-work:/opt/adguardhome/work
+      - adguard-storage-conf:/opt/adguardhome/conf
+    networks:
+      - traefik-network
+      
+volumes:
+  adguard-storage-etc:
+  adguard-storage-dnsmasq:
+
+networks:
+    traefik-network:
+      external: true
