@@ -18,8 +18,8 @@ services:
       - traefik-network
       
 volumes:
-  adguard-storage-etc:
-  adguard-storage-dnsmasq:
+  adguard-storage-work:
+  adguard-storage-conf:
 
 networks:
     traefik-network:
