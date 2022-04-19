@@ -1,13 +1,14 @@
 version: '3'
 services:
   keycloak:
-    image: quay.io/keycloak/keycloak:latest
+    image: quay.io/keycloak/keycloak:legacy
     container_name: keycloak
     restart: unless-stopped
     environment:
+      DB_VENDOR: POSTGRES
       DB_ADDR: keycloak_postgres
       DB_USER: keycloak
-      DB_PASSWORD: ${DB_PASSWORD:-keycloak}
+      DB_PASSWORD: keycloak
       PROXY_ADDRESS_FORWARDING: "true"
     labels:
       - "traefik.http.routers.keycloak.entrypoints=websecure"
@@ -24,11 +25,13 @@ services:
     environment:
       POSTGRES_DB: keycloak
       POSTGRES_USER: keycloak
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-keycloak}
+      POSTGRES_PASSWORD: keycloak
     volumes:
       - keycloak-storage:/var/lib/postgresql/data
     networks:
       - traefik-network
+
+
 
 volumes:
   keycloak-storage:
