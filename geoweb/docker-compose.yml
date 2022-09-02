@@ -7,6 +7,8 @@ services:
     restart: unless-stopped
     environment:
       - GW_FEATURE_APP_TITLE="Meteo.FI GeoWeb"
+      - GW_INITIAL_PRESETS_FILENAME="initialPresets.json"
+      - GW_SCREEN_PRESETS_FILENAME="screenPresets.json"
     labels:
       - "traefik.http.routers.geoweb.entrypoints=websecure"
       - "traefik.http.routers.geoweb.rule=Host(`geoweb.${APPDOMAIN:-local}`)"
