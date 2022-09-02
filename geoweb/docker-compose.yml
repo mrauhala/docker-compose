@@ -12,6 +12,7 @@ services:
       - GW_SCREEN_PRESETS_FILENAME="screenPresets.json"
       - GW_AUTH_CLIENT_ID="264496341656-41rbnl8ehtmt4r3426916bhmnullkhd9.apps.googleusercontent.com"
       - GW_AUTH_LOGIN_URL="https://accounts.google.com/o/oauth2/v2/auth?client_id={client_id}&response_type=code&scope=email+openid&redirect_uri={app_url}/code&state={state}"
+      - GW_AUTH_TOKEN_URL="https://oauth2.googleapis.com/token"
     labels:
       - "traefik.http.routers.geoweb.entrypoints=websecure"
       - "traefik.http.routers.geoweb.rule=Host(`geoweb.${APPDOMAIN:-local}`)"
