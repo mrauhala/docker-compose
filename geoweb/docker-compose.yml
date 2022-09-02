@@ -6,6 +6,7 @@ services:
     container_name: geoweb
     restart: unless-stopped
     environment:
+      - GW_APP_URL="https://geoweb.${APPDOMAIN:-local}"
       - GW_FEATURE_APP_TITLE="Meteo.FI GeoWeb"
       - GW_INITIAL_PRESETS_FILENAME="initialPresets.json"
       - GW_SCREEN_PRESETS_FILENAME="screenPresets.json"
