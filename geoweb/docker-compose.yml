@@ -4,7 +4,9 @@ services:
   geoweb:
     image: opengeoweb/geoweb
     container_name: geoweb
-    restart: always
+    restart: unless-stopped
+    environment:
+      - GW_FEATURE_APP_TITLE="Meteo.FI GeoWeb"
     labels:
       - "traefik.http.routers.geoweb.entrypoints=websecure"
       - "traefik.http.routers.geoweb.rule=Host(`geoweb.${APPDOMAIN:-local}`)"
