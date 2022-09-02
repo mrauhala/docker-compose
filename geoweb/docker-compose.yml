@@ -8,7 +8,7 @@ services:
     labels:
       - "traefik.http.routers.geoweb.entrypoints=websecure"
       - "traefik.http.routers.geoweb.rule=Host(`geoweb.${APPDOMAIN:-local}`)"
-      - "traefik.http.services.geoweb.loadbalancer.server.port=3000"
+      - "traefik.http.services.geoweb.loadbalancer.server.port=8080"
     networks:
       - traefik-network
       
