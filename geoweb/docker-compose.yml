@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  geoweb:
+    image: opengeoweb/geoweb
+    container_name: geoweb
+    restart: always
+    labels:
+      - "traefik.http.routers.geoweb.entrypoints=websecure"
+      - "traefik.http.routers.geoweb.rule=Host(`geoweb.${APPDOMAIN:-local}`)"
+      - "traefik.http.services.geoweb.loadbalancer.server.port=3000"
+    networks:
+      - traefik-network
+      
+networks:
+    traefik-network:
+      external: true
