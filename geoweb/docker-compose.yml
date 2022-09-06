@@ -6,15 +6,15 @@ services:
     container_name: geoweb
     restart: unless-stopped
     environment:
-      - GW_APP_URL="https://geoweb.${APPDOMAIN:-local}"
-      - GW_FEATURE_APP_TITLE="Meteo.FI GeoWeb"
-      - GW_INITIAL_PRESETS_FILENAME="initialPresets.json"
-      - GW_SCREEN_PRESETS_FILENAME="screenPresets.json"
-      - GW_AUTH_CLIENT_ID="Az4t8ulKHUeIpRHLET3CT3MWUqpWyy9G"
-      - GW_AUTH_LOGIN_URL="https://meteofi.eu.auth0.com/authorize?client_id={client_id}&response_type=code&scope=email+openid&redirect_uri={app_url}/code&state={state}&code_challenge={code_challenge}&code_challenge_method=S256"
-      - GW_AUTH_TOKEN_URL="https://meteofi.eu.auth0.com/oauth/token"
-      - GW_AUTH_LOGOUT_URL="{app_url}"
-      - GW_INFRA_BASE_URL="https://api.opengeoweb.com"
+      - GW_APP_URL=https://geoweb.${APPDOMAIN:-local}
+      - GW_FEATURE_APP_TITLE=Meteo.FI GeoWeb
+      - GW_INITIAL_PRESETS_FILENAME=initialPresets.json
+      - GW_SCREEN_PRESETS_FILENAME=screenPresets.json
+      - GW_AUTH_CLIENT_ID=Az4t8ulKHUeIpRHLET3CT3MWUqpWyy9G
+      - GW_AUTH_LOGIN_URL=https://meteofi.eu.auth0.com/authorize?client_id={client_id}&response_type=code&scope=email+openid&redirect_uri={app_url}/code&state={state}&code_challenge={code_challenge}&code_challenge_method=S256
+      - GW_AUTH_TOKEN_URL=https://meteofi.eu.auth0.com/oauth/token
+      - GW_AUTH_LOGOUT_URL={app_url}
+      - GW_INFRA_BASE_URL=https://api.opengeoweb.com
     labels:
       - "traefik.http.routers.geoweb.entrypoints=websecure"
       - "traefik.http.routers.geoweb.rule=Host(`geoweb.${APPDOMAIN:-local}`)"
