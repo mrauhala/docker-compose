@@ -15,6 +15,8 @@ services:
       - GW_AUTH_TOKEN_URL=https://meteofi.eu.auth0.com/oauth/token
       - GW_AUTH_LOGOUT_URL={app_url}
       - GW_INFRA_BASE_URL=https://api.opengeoweb.com
+      - GW_GITLAB_PRESETS_BASE_URL=https://raw.githubusercontent.com/meteofi/geoweb-presets/main
+      - GW_GITLAB_PRESETS_API_PATH=/
     labels:
       - "traefik.http.routers.geoweb.entrypoints=websecure"
       - "traefik.http.routers.geoweb.rule=Host(`geoweb.${APPDOMAIN:-local}`)"
