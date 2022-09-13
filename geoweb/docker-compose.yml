@@ -18,6 +18,10 @@ services:
       - GW_GITLAB_PRESETS_BASE_URL=https://raw.githubusercontent.com/meteofi/geoweb-presets/main
       - GW_GITLAB_PRESETS_API_PATH=/
       - GW_FEATURE_LAYER_SELECT=true
+      - GW_FEATURE_MODULE_SPACE_WEATHER=true
+      - GW_FEATURE_MODULE_TAF=true
+      - GW_FEATURE_MODULE_SIGMET=true
+      - GW_FEATURE_MODULE_AIRMET=true
     labels:
       - "traefik.http.routers.geoweb.entrypoints=websecure"
       - "traefik.http.routers.geoweb.rule=Host(`geoweb.${APPDOMAIN:-local}`)"
