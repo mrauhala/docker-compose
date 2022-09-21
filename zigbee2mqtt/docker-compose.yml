@@ -1,0 +1,31 @@
+
+version: "3"
+services:
+  zigbee2mqtt:
+    container_name: zigbee2mqtt
+    image: koenkk/zigbee2mqtt
+    restart: unless-stopped
+    labels:
+      - "traefik.http.routers.zigbee2mqtt.entrypoints=websecure"
+      - "traefik.http.routers.zigbee2mqtt.rule=Host(`zigbee2mqtt.${APPDOMAIN:-local}`)"
+      - "traefik.http.services.zigbee2mqtt.loadbalancer.server.port=8080"
+    environment:
+      - TZ=Europe/Helsinki
+    volumes:
+      - zigbee2mqtt-storage:/app/data
+      - /run/udev:/run/udev:ro
+    networks:
+      - traefik-network
+    #devices:
+      # Make sure this matched your adapter location
+     # - /dev/serial/by-id/usb-Texas_Instruments_TI_CC2531_USB_CDC___0X00124B0018ED3DDF-if00:/dev/ttyACM0
+      
+volumes:
+  zigbee2mqtt-storage:
+
+networks:
+    traefik-network:
+      external: true
+
+
+
