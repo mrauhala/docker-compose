@@ -11,6 +11,7 @@ services:
       - "traefik.http.services.homeassistant.loadbalancer.server.port=8123"
     volumes:
       - homeassistant-storage:/config
+      - /run/dbus:/run/dbus:ro
     environment:
       - TZ=Europe/Helsinki
       
