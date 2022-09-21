@@ -4,6 +4,7 @@ services:
     image: quay.io/keycloak/keycloak:latest
     container_name: keycloak
     restart: unless-stopped
+    entrypoint: /opt/keycloak/bin/kc.sh start
     environment:
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://keycloak_postgres/keycloak
@@ -13,7 +14,7 @@ services:
       KC_HEALTH_ENABLED: "true"
       KC_HTTP_ENABLED: "true"
       KC_PROXY: "edge"
-      
+      KC_HOSTNAME_STRICT: "false"
     labels:
       - "traefik.http.routers.keycloak.entrypoints=websecure"
       - "traefik.http.routers.keycloak.rule=Host(`keycloak.${APPDOMAIN:-local}`)"
