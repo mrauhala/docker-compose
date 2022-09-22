@@ -15,6 +15,9 @@ services:
       KC_HTTP_ENABLED: "true"
       KC_PROXY: "edge"
       KC_HOSTNAME_STRICT: "false"
+      KC_HOSTNAME: "keycloak.${APPDOMAIN:-local}"
+      KEYCLOAK_ADMIN: ${KEYCLOAK_USER}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_PASSWORD}
     labels:
       - "traefik.http.routers.keycloak.entrypoints=websecure"
       - "traefik.http.routers.keycloak.rule=Host(`keycloak.${APPDOMAIN:-local}`)"
