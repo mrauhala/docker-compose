@@ -16,9 +16,9 @@ services:
       - /run/udev:/run/udev:ro
     networks:
       - traefik-network
-    #devices:
+    devices:
       # Make sure this matched your adapter location
-     # - /dev/serial/by-id/usb-Texas_Instruments_TI_CC2531_USB_CDC___0X00124B0018ED3DDF-if00:/dev/ttyACM0
+      - /dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_a23ceb761e67ec11bf129f7089640db2-if00-port0:/dev/ttyACM0
       
 volumes:
   zigbee2mqtt-storage:
@@ -26,6 +26,3 @@ volumes:
 networks:
     traefik-network:
       external: true
-
-
-
