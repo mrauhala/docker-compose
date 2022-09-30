@@ -1,0 +1,31 @@
+version: '3'
+services:
+  homebridge:
+    container_name: homebridge
+    image: oznu/homebridge:latest
+    restart: unless-stopped
+    environment:
+      - TZ=Europe/Helsinki
+    cap_add:
+      - NET_ADMIN
+    labels:
+      - "traefik.http.routers.homebridge.rule=Host(`homebridge.${APPDOMAIN:-local}`)"
+      - "traefik.http.routers.homebridge.entrypoints=websecure"
+      - "traefik.http.services.homebridge.loadbalancer.server.port=8581"
+      - "traefik.docker.network=traefik-network"
+    volumes:
+      - homebridge-storage:/homebridge
+    networks:
+       traefik-network:
+       homenet-shim:
+          ipv4_address: ${IPADDRESS}
+
+volumes:
+  homebridge-storage:
+  
+networks:
+  traefik-network:
+    external: true
+  homenet-shim:
+    external: true
+
