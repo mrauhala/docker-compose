@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+  db:
+    image: mariadb
+    command: --max-allowed-packet=64MB
+    restart: always
+    volumes:
+      - matomo-db-storage:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=
+    environment:
+      - MATOMO_DATABASE_HOST=db
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=matomo
+      - MYSQL_USER=matomo
+      - MATOMO_DATABASE_ADAPTER=mysql
+      - MATOMO_DATABASE_TABLES_PREFIX=matomo_
+      - MATOMO_DATABASE_USERNAME=matomo
+      - MATOMO_DATABASE_PASSWORD=${DB_PASSWORD}
+      - MATOMO_DATABASE_DBNAME=matomo
+  matomo:
+    image: matomo
+    container_name: matomo
+    restart: always
+    labels:
+      - "traefik.http.routers.matomo.entrypoints=websecure"
+      - "traefik.http.routers.matomo.rule=Host(`matomo.${APPDOMAIN:-local}`)"
+      - "traefik.http.services.matomo.loadbalancer.server.port=80"
+    environment:
+      - MATOMO_DATABASE_HOST=db
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=matomo
+      - MYSQL_USER=matomo
+      - MATOMO_DATABASE_ADAPTER=mysql
+      - MATOMO_DATABASE_TABLES_PREFIX=matomo_
+      - MATOMO_DATABASE_USERNAME=matomo
+      - MATOMO_DATABASE_PASSWORD=${DB_PASSWORD}
+      - MATOMO_DATABASE_DBNAME=matomo
+    volumes:
+      - matomo-storage:/var/www/html
+    networks:
+      - traefik-network
+
+volumes:
+  matomo-storage:
+  matobo-db-storage:
+  
+networks:
+    traefik-network:
+      external: true
+      
