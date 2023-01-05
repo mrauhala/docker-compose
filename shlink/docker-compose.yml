@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  shlink:
+    image: shlinkio/shlink:stable
+    container_name: shlink
+    restart: always
+    environment:
+      - DEFAULT_DOMAIN=shlink.${APPDOMAIN:-local}
+      - IS_HTTPS_ENABLED=true
+    labels:
+      - "traefik.http.routers.shlink.entrypoints=websecure"
+      - "traefik.http.routers.shlink.rule=Host(`shlink.${APPDOMAIN:-local}`)"
+      - "traefik.http.services.shlink.loadbalancer.server.port=8080"
+    #volumes:
+    #  - shlink-storage:/var/lib/grafana
+    networks:
+      - traefik-network
+
+volumes:
+  shlink-storage:
+  
+networks:
+    traefik-network:
+      external: true
