@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  speedtest:
+    image: openspeedtest/latest
+    restart: unless-stopped
+    container_name: openspeedtest
+    labels:
+      - "traefik.http.routers.speedtest.entrypoints=websecure"
+      - "traefik.http.routers.speedtest.rule=Host(`speedtest.${APPDOMAIN:-local}`)"
+      - "traefik.http.services.speedtest.loadbalancer.server.port=3000"
+      - "traefik.http.middlewares.limit.buffering.maxRequestBodyBytes=10000000000"
+      - "traefik.http.middlewares.limit.buffering.memRequestBodyBytes=10000000000"
+      - "traefik.http.middlewares.limit.buffering.memResponseBodyBytes=10000000000"
+      - "traefik.http.middlewares.limit.buffering.maxResponseBodyBytes=10000000000"
+      - "traefik.http.routers.speedtest.middlewares=limit"
+    networks:
+      - traefik-network
+
+networks:
+    traefik-network:
+      external: true
