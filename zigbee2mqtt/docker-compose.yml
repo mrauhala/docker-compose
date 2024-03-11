@@ -1,10 +1,9 @@
-
 version: "3"
 services:
   zigbee2mqtt:
     container_name: zigbee2mqtt
     image: koenkk/zigbee2mqtt
-    restart: unless-stopped
+    restart: always
     labels:
       - "traefik.http.routers.zigbee2mqtt.entrypoints=websecure"
       - "traefik.http.routers.zigbee2mqtt.rule=Host(`zigbee2mqtt.${APPDOMAIN:-local}`)"
@@ -19,6 +18,12 @@ services:
     devices:
       # Make sure this matched your adapter location
       - /dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_a23ceb761e67ec11bf129f7089640db2-if00-port0:/dev/ttyACM0
+    healthcheck:
+      test: ping -c 1 localhost || exit 1
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
       
 volumes:
   zigbee2mqtt-storage:
