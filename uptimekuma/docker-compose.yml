@@ -1,0 +1,22 @@
+services:
+  uptime:
+    image: louislam/uptime-kuma
+    container_name: uptime-kuma
+    privileged: true
+    restart: unless-stopped
+    labels:
+      - "traefik.http.routers.uptime.entrypoints=websecure"
+      - "traefik.http.routers.uptime.rule=Host(`uptime.${APPDOMAIN:-local}`)"
+      - "traefik.http.services.uptime.loadbalancer.server.port=3001"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - uptime-storage:/app/data
+    networks:
+      - traefik-network
+
+volumes:
+  uptime-storage:
+  
+networks:
+    traefik-network:
+      external: true
