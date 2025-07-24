@@ -1,0 +1,25 @@
+version: "3"
+services:
+  netbootxyz:
+    image: ghcr.io/netbootxyz/netbootxyz
+    container_name: netbootxyz
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    labels:
+      - "traefik.http.routers.netbootxyz.entrypoints=websecure"
+      - "traefik.http.routers.netbootxyz.rule=Host(`netbootxyz.${APPDOMAIN:-local}`)"
+      - "traefik.http.services.netbootxyz.loadbalancer.server.port=3000"
+      - "traefik.udp.routers.netbootxyz.entrypoints=tftp"
+      - "traefik.udp.routers.netbootxyz.service=netbootxyz"
+      - "traefik.udp.services.netbootxyz.loadBalancer.server.port=69"
+    #environment:
+    #  - PORT_RANGE=30000:30010
+
+    volumes:
+      - netbootxyz-config:/config # optional
+      - netbootxyz-assets:/assets # optional
+    networks:
+      - traefik-network
+    #ports:
+    #  - 69:69/udp
