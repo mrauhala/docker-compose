@@ -1,0 +1,20 @@
+services:
+  grafana:
+    image: geopython/pygeoapi:latest
+    container_name: pygeoapi
+    restart: unless-stopped
+    labels:
+      - "traefik.http.routers.pygeoapi.entrypoints=websecure"
+      - "traefik.http.routers.pygeoapi.rule=Host(`pygeoapi.${APPDOMAIN:-local}`)"
+      - "traefik.http.services.pygeoapi.loadbalancer.server.port=80"
+    volumes:
+      - pygeoapi-storage:/pygeoapi
+    networks:
+      - traefik-network
+
+volumes:
+  pygeoapi-storage:
+  
+networks:
+    traefik-network:
+      external: true
