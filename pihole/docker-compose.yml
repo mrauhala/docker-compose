@@ -1,5 +1,3 @@
-version: "3"
-# More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
 services:
   pihole:
     container_name: pihole
@@ -11,6 +9,8 @@ services:
     environment:
       TZ: 'Europe/Helsinki'
       WEBPASSWORD: ${WEBPASSWORD:-admin}
+    cap_add:
+      - NET_ADMIN
     labels:
       - "traefik.http.routers.pihole.entrypoints=websecure"
       - "traefik.http.routers.pihole.rule=Host(`pihole.${APPDOMAIN:-local}`)"
