@@ -2,7 +2,7 @@ version: '3'
 
 services:
   traefik:
-    image: traefik:v2.10
+    image: traefik:v2.11
     container_name: traefik
     restart: unless-stopped
     # Enables the web UI and tells Traefik to listen to docker
@@ -35,8 +35,6 @@ services:
       - "80:80"
       # HTTPS port
       - "443:443"
-      # The Web UI (enabled by --api.insecure=true)
-      - "8080:8080"
     volumes:
       - traefik-storage:/letsencrypt
       - /var/run/docker.sock:/var/run/docker.sock
